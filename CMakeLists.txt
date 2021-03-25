@@ -43,7 +43,8 @@ llvm_map_components_to_libnames(llvm_libs
 
 flex_target(lexer
   src/lexer.l
-  lexer.cpp)
+  lexer.cpp
+  COMPILE_FLAGS -c++)
 
 bison_target(parser
   src/parser.y
@@ -63,6 +64,7 @@ target_link_libraries(rvc
 
 target_include_directories(rvc
   PRIVATE
+    ${BREW_FLEX_PREFIX}/include
     ${LLVM_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR})
 

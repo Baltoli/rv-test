@@ -1,58 +1,44 @@
-%{
-  #include "parser.hpp"
+%skeleton "lalr1.cc"
+%require "3.0.2"
 
-  #include <iostream>
+%defines
 
-  extern int yylex();
-  extern int yyparse();
- 
-  void yyerror(const char *s);
-%}
+%define api.token.constructor
+%define api.value.type variant
+%define parse.assert true
 
-%union {
-  int ival;
+%code requires {
+  class lexer;
 }
 
-%token WHITESPACE
-%token ENDL
+%locations
+%initial-action
+{
+};
 
-%token LPAREN
-%token RPAREN
-%token SEMICOLON
+%define parse.trace
+%define parse.error verbose
 
-%token ADD
-%token SUB
-%token MUL
-%token DIV
+%lex-param { lexer &lex }
+%parse-param { lexer &lex }
 
-%token PRINT
-%token <ival> INT
+%code top {
+  #include "../src/lexer.h"
+  #include "parser.hpp"
 
-%left ADD SUB
-%left MUL DIV
-%nonassoc UMINUS
+  static yy::parser::symbol_type yylex(lexer &scanner) {
+    return scanner.get_next_token();
+  }
+}
 
-%%
-
-program: PRINT LPAREN exp RPAREN SEMICOLON endls
-       ;
-
-exp:
-     INT
-   | LPAREN exp RPAREN
-   | SUB exp %prec UMINUS
-   | exp ADD exp
-   | exp SUB exp
-   | exp MUL exp
-   | exp DIV exp
-
-endls:
-     endls ENDL |
-     ENDL
-     ;
+%token END
 
 %%
 
-void yyerror(const char *s) {
-std::cout << s << '\n';
+program:
+
+%%
+
+void yy::parser::error(const location_type& l, const std::string& m)
+{
 }

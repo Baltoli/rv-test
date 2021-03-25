@@ -1,29 +1,18 @@
 %{
+  #include "../src/lexer.h"
   #include "parser.hpp"
 
-  #include <iostream>
-  using namespace std;
-  extern int yylex();
+  typedef yy::parser::token token;
+
+  #define yyterminate() yy::parser::make_END(loc);
+
+  static yy::location loc;
 %}
 
-%option noinput nounput noyywrap nodefault
+%option nodefault
+%option noyywrap
+%option c++
+%option yyclass="lexer"
 
 %%
-
-print  { return PRINT; }
-[0-9]+ { yylval.ival = atoi(yytext); return INT; }
-
-"(" { return LPAREN; }
-")" { return RPAREN; }
-";" { return SEMICOLON; }
-
-"+" { return ADD; }
-"-" { return SUB; }
-"*" { return MUL; }
-"/" { return DIV; }
-
-\n    { return ENDL; }
-
-. { std::cout << "Bad character: " << yytext << '\n'; }
-
 %%
