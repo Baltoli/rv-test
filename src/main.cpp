@@ -3,6 +3,7 @@
 #include "lexer.h"
 #include "parser.hpp"
 
+#include <llvm/Bitcode/BitcodeWriter.h>
 #include <llvm/Support/raw_ostream.h>
 
 #include <fstream>
@@ -21,11 +22,12 @@ int main(int argc, char** argv)
   yy::parser p(lex, root);
   p.parse();
 
-  root->dump();
-  std::cout << '\n';
-
   llvm::LLVMContext ctx;
   auto mod = codegen::emit_llvm(*root, ctx);
-  llvm::outs() << *mod << '\n';
+
+  std::error_code ec;
+  llvm::raw_fd_ostream out_f("rv.bc", ec);
+
+  llvm::WriteBitcodeToFile(*mod, out_f);
 }
 
