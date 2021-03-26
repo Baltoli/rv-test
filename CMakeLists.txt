@@ -54,6 +54,7 @@ add_flex_bison_dependency(lexer parser)
 
 add_executable(rvc
   src/main.cpp
+  src/ast.cpp
   ${FLEX_lexer_OUTPUTS}
   ${BISON_parser_OUTPUT_SOURCE})
 

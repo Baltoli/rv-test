@@ -1,4 +1,8 @@
+#include "ast.h"
+#include "lexer.h"
 #include "parser.hpp"
+
+#include <fstream>
 
 int main(int argc, char** argv)
 {
@@ -6,11 +10,12 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  auto input_file = fopen(argv[1], "r");
-  if (!input_file) {
-    return 2;
-  }
+  auto in = std::ifstream(argv[1]);
 
-  fclose(input_file);
+  lexer lex(&in);
+  ast::node root;
+
+  yy::parser p(lex, root);
+  p.parse();
 }
 

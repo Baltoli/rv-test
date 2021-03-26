@@ -2,7 +2,7 @@
 
 #if !defined(yyFlexLexerOnce)
 #undef yyFlexLexer
-#define yyFlexLexer NanoFlexLexer
+#define yyFlexLexer RV_FlexLexer
 #include <FlexLexer.h>
 #endif
 
