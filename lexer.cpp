@@ -429,6 +429,7 @@ static const flex_int16_t yy_chk[39] =
 #define YY_RESTORE_YY_MORE_OFFSET
 #line 1 "src/lexer.l"
 #line 2 "src/lexer.l"
+  #include "../src/ast.h"
   #include "../src/lexer.h"
   #include "parser.hpp"
 
@@ -440,8 +441,8 @@ static const flex_int16_t yy_chk[39] =
   #define yyterminate() yy::parser::make_END(loc);
 
   static yy::location loc;
-#line 443 "/Users/brucecollie/code/rv-test/lexer.cpp"
 #line 444 "/Users/brucecollie/code/rv-test/lexer.cpp"
+#line 445 "/Users/brucecollie/code/rv-test/lexer.cpp"
 
 #define INITIAL 0
 
@@ -573,10 +574,10 @@ YY_DECL
 		}
 
 	{
-#line 21 "src/lexer.l"
+#line 22 "src/lexer.l"
 
 
-#line 579 "/Users/brucecollie/code/rv-test/lexer.cpp"
+#line 580 "/Users/brucecollie/code/rv-test/lexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -635,53 +636,53 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 23 "src/lexer.l"
+#line 24 "src/lexer.l"
 { return yy::parser::make_PRINT(yy::location()); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 25 "src/lexer.l"
+#line 26 "src/lexer.l"
 { return yy::parser::make_LPAREN(yy::location()); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 26 "src/lexer.l"
+#line 27 "src/lexer.l"
 { return yy::parser::make_RPAREN(yy::location()); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 27 "src/lexer.l"
+#line 28 "src/lexer.l"
 { return yy::parser::make_SEMICOLON(yy::location()); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 29 "src/lexer.l"
+#line 30 "src/lexer.l"
 { return yy::parser::make_ADD(yy::location()); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 30 "src/lexer.l"
+#line 31 "src/lexer.l"
 { return yy::parser::make_SUB(yy::location()); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 31 "src/lexer.l"
+#line 32 "src/lexer.l"
 { return yy::parser::make_MUL(yy::location()); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 32 "src/lexer.l"
+#line 33 "src/lexer.l"
 { return yy::parser::make_DIV(yy::location()); }
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 34 "src/lexer.l"
+#line 35 "src/lexer.l"
 { return yy::parser::make_ENDL(yy::location()); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 36 "src/lexer.l"
+#line 37 "src/lexer.l"
 {
   int64_t num = std::strtol(yytext, nullptr, 10);
   return yy::parser::make_INT(num, yy::location());
@@ -689,21 +690,21 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 41 "src/lexer.l"
+#line 42 "src/lexer.l"
 { 
                 std::cout << "Scanner: unknown character [" << yytext << "]\n"; 
             }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 45 "src/lexer.l"
+#line 46 "src/lexer.l"
 { return yyterminate(); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 47 "src/lexer.l"
+#line 48 "src/lexer.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 706 "/Users/brucecollie/code/rv-test/lexer.cpp"
+#line 707 "/Users/brucecollie/code/rv-test/lexer.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1664,6 +1665,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 47 "src/lexer.l"
+#line 48 "src/lexer.l"
 
 

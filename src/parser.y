@@ -23,7 +23,7 @@
 
 %lex-param { lexer &lex }
 %parse-param { lexer &lex }
-%parse-param { ast::node &node }
+%parse-param { std::unique_ptr<ast::node>& node }
 
 %code top {
   #include "../src/ast.h"
@@ -31,6 +31,7 @@
   #include "parser.hpp"
 
   #include <iostream>
+  #include <memory>
 
   static yy::parser::symbol_type yylex(lexer &scanner) {
     return scanner.get_next_token();
@@ -56,22 +57,41 @@
 %left MUL DIV
 %nonassoc UMINUS
 
-%type <ast::node*> exp
+%type <std::unique_ptr<ast::node>> exp
 
 %%
 
 program:
        PRINT LPAREN exp RPAREN SEMICOLON endls
-       { $3->dump(); }
+       { node = std::move($3); }
 
 exp:
-       INT { $$ = new ast::constant($1); }
-     | LPAREN exp RPAREN { $$ = $2; }
-     /* | SUB exp %prec UMINUS */
-     /* | exp ADD exp */
-     /* | exp SUB exp */
-     /* | exp MUL exp */
-     /* | exp DIV exp */
+       INT { $$ = std::make_unique<ast::constant>($1); }
+     | LPAREN exp RPAREN { $$ = std::move($2); }
+     | SUB exp %prec UMINUS 
+        { 
+          $$ = std::make_unique<ast::unary_op>(ast::unary_op_kind::minus, std::move($2));
+        }
+     | exp ADD exp
+        {
+          $$ = std::make_unique<ast::binary_op>(
+            ast::binary_op_kind::add, std::move($1), std::move($3));
+        }
+     | exp SUB exp
+        {
+          $$ = std::make_unique<ast::binary_op>(
+            ast::binary_op_kind::sub, std::move($1), std::move($3));
+        }
+     | exp MUL exp
+        {
+          $$ = std::make_unique<ast::binary_op>(
+            ast::binary_op_kind::mul, std::move($1), std::move($3));
+        }
+     | exp DIV exp
+        {
+          $$ = std::make_unique<ast::binary_op>(
+            ast::binary_op_kind::div, std::move($1), std::move($3));
+        }
 
 endls:
        ENDL endls

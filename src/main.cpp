@@ -13,9 +13,12 @@ int main(int argc, char** argv)
   auto in = std::ifstream(argv[1]);
 
   lexer lex(&in);
-  ast::node root;
+  std::unique_ptr<ast::node> root(nullptr);
 
   yy::parser p(lex, root);
   p.parse();
+
+  root->dump();
+  std::cout << '\n';
 }
 

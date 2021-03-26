@@ -1,4 +1,5 @@
 %{
+  #include "../src/ast.h"
   #include "../src/lexer.h"
   #include "parser.hpp"
 
