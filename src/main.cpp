@@ -1,6 +1,9 @@
 #include "ast.h"
+#include "codegen.h"
 #include "lexer.h"
 #include "parser.hpp"
+
+#include <llvm/Support/raw_ostream.h>
 
 #include <fstream>
 
@@ -20,5 +23,9 @@ int main(int argc, char** argv)
 
   root->dump();
   std::cout << '\n';
+
+  llvm::LLVMContext ctx;
+  auto mod = codegen::emit_llvm(*root, ctx);
+  llvm::outs() << *mod << '\n';
 }
 

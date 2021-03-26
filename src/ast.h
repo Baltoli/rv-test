@@ -1,7 +1,14 @@
 #pragma once
 
+#include <llvm/IR/IRBuilder.h>
+#include <llvm/IR/Value.h>
+
 #include <iostream>
 #include <memory>
+
+namespace codegen {
+struct ir_builder;
+}
 
 namespace ast {
 
@@ -24,6 +31,7 @@ inline char binary_op_char(binary_op_kind k)
 
 struct node {
   virtual void dump() const = 0;
+  virtual llvm::Value* emit(codegen::ir_builder&) const = 0;
   virtual ~node() = default;
 };
 
@@ -34,6 +42,8 @@ struct constant : public node {
   }
 
   void dump() const override { std::cout << value; }
+
+  llvm::Value* emit(codegen::ir_builder&) const override;
 
   int64_t value;
 };
@@ -51,6 +61,8 @@ struct unary_op : public node {
     exp->dump();
     std::cout << ")";
   }
+
+  llvm::Value* emit(codegen::ir_builder&) const override;
 
   unary_op_kind kind;
   std::unique_ptr<ast::node> exp;
@@ -74,6 +86,8 @@ struct binary_op : public node {
     right->dump();
     std::cout << ')';
   }
+
+  llvm::Value* emit(codegen::ir_builder&) const override;
 
   binary_op_kind kind;
   std::unique_ptr<ast::node> left;
