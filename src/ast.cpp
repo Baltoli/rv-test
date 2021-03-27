@@ -19,6 +19,8 @@ char binary_op_char(binary_op_kind k)
     return '*';
   case binary_op_kind::div:
     return '/';
+  default:
+    assert(false && "Bad binary op kind");
   }
 }
 

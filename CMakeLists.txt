@@ -40,12 +40,12 @@ llvm_map_components_to_libnames(llvm_libs bitwriter core support)
 
 flex_target(lexer
   src/lexer.l
-  lexer.cpp
+  ${CMAKE_CURRENT_BINARY_DIR}/lexer.cpp
   COMPILE_FLAGS -c++)
 
 bison_target(parser
   src/parser.y
-  parser.cpp)
+  ${CMAKE_CURRENT_BINARY_DIR}/parser.cpp)
 
 add_flex_bison_dependency(lexer parser)
 

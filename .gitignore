@@ -186,3 +186,4 @@ tags
 # End of https://www.toptal.com/developers/gitignore/api/cmake,c,c++,linux,vim,macos,flex
 
 build/
+.vagrant/
