@@ -44,6 +44,13 @@ cmake \
 make
 ```
 
+Once the compiler is built, you can compile and run a program as follows:
+```shell
+./build/rvc $file
+clang rv.bc
+./a.out
+```
+
 ## Tests
 
 Included is a small test suite verifying that pairs of expressions produce

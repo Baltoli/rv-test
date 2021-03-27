@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
     apt-get install -y \
       bison \
       build-essential \
+      clang \
       cmake \
       flex \
       llvm-11-dev \
