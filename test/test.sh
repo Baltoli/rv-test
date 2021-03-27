@@ -36,6 +36,7 @@ for test_case in "${tests[@]}"; do
     lhs_val=$(cat lhs.out)
     rhs_val=$(cat rhs.out)
     echo "Test failed: $lhs != $rhs (actual: $lhs_val != $rhs_val)"
+    exit 1
   fi
 
   rm *.pgm *.bc *.out
