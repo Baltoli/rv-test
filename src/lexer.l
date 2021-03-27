@@ -1,5 +1,4 @@
 %{
-  #include "../src/ast.h"
   #include "../src/lexer.h"
   #include "parser.hpp"
 
@@ -20,7 +19,7 @@
 %option prefix="RV_"
 
 %%
-
+  
 print { return yy::parser::make_PRINT(yy::location()); }
 
 "(" { return yy::parser::make_LPAREN(yy::location()); }
@@ -39,9 +38,11 @@ print { return yy::parser::make_PRINT(yy::location()); }
   return yy::parser::make_INT(num, yy::location());
 }
 
-.           { 
-                std::cout << "Scanner: unknown character [" << yytext << "]\n"; 
-            }
+  /* 
+   * Ignore any characters we don't know about - this isn't a robust strategy in
+   * general but is fine for this limited use case.
+   */
+.           { }
             
 <<EOF>>     { return yyterminate(); }
 

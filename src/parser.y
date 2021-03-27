@@ -53,6 +53,9 @@
 %token END 0
 %token ENDL
 
+// Ensure that precedence from the language specs is respected - +- should bind
+// loosest, then */, then unary -. Binding of parens is handled by the grammar
+// rules.
 %left ADD SUB
 %left MUL DIV
 %nonassoc UMINUS
@@ -63,11 +66,19 @@
 
 program:
        PRINT LPAREN exp RPAREN SEMICOLON endls
-       { node = std::move($3); }
+        { 
+          node = std::move($3); 
+        }
 
 exp:
-       INT { $$ = std::make_unique<ast::constant>($1); }
-     | LPAREN exp RPAREN { $$ = std::move($2); }
+       INT 
+        { 
+          $$ = std::make_unique<ast::constant>($1); 
+        }
+     | LPAREN exp RPAREN 
+        { 
+          $$ = std::move($2); 
+        }
      | SUB exp %prec UMINUS 
         { 
           $$ = std::make_unique<ast::unary_op>(ast::unary_op_kind::minus, std::move($2));

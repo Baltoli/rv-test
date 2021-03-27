@@ -429,7 +429,6 @@ static const flex_int16_t yy_chk[39] =
 #define YY_RESTORE_YY_MORE_OFFSET
 #line 1 "src/lexer.l"
 #line 2 "src/lexer.l"
-  #include "../src/ast.h"
   #include "../src/lexer.h"
   #include "parser.hpp"
 
@@ -441,8 +440,8 @@ static const flex_int16_t yy_chk[39] =
   #define yyterminate() yy::parser::make_END(loc);
 
   static yy::location loc;
+#line 443 "/Users/brucecollie/code/rv-test/lexer.cpp"
 #line 444 "/Users/brucecollie/code/rv-test/lexer.cpp"
-#line 445 "/Users/brucecollie/code/rv-test/lexer.cpp"
 
 #define INITIAL 0
 
@@ -574,9 +573,10 @@ YY_DECL
 		}
 
 	{
-#line 22 "src/lexer.l"
+#line 21 "src/lexer.l"
 
-
+#line 23 "src/lexer.l"
+  
 #line 580 "/Users/brucecollie/code/rv-test/lexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
@@ -688,23 +688,25 @@ YY_RULE_SETUP
   return yy::parser::make_INT(num, yy::location());
 }
 	YY_BREAK
+/* 
+   * Ignore any characters we don't know about - this isn't a robust strategy in
+   * general but is fine for this limited use case.
+   */
 case 11:
 YY_RULE_SETUP
-#line 42 "src/lexer.l"
-{ 
-                std::cout << "Scanner: unknown character [" << yytext << "]\n"; 
-            }
+#line 46 "src/lexer.l"
+{ }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 46 "src/lexer.l"
+#line 48 "src/lexer.l"
 { return yyterminate(); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 48 "src/lexer.l"
+#line 50 "src/lexer.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 707 "/Users/brucecollie/code/rv-test/lexer.cpp"
+#line 709 "/Users/brucecollie/code/rv-test/lexer.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1665,6 +1667,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 48 "src/lexer.l"
+#line 50 "src/lexer.l"
 
 

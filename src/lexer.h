@@ -1,5 +1,10 @@
 #pragma once
 
+/*
+ * This file is the declaration for a minimum viable implementation of a
+ * Flex-based lexer using the C++ inheritance interface.
+ */
+
 #if !defined(yyFlexLexerOnce)
 #undef yyFlexLexer
 #define yyFlexLexer RV_FlexLexer

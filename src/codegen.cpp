@@ -20,7 +20,11 @@ std::unique_ptr<Module> emit_llvm(ast::node const& root, LLVMContext& ctx)
 
   ir_builder build(entry);
 
+  // Fixed format string passed to printf, as we know the argument type is
+  // always an i64.
   auto format = build.CreateGlobalStringPtr("%ld\n", "format");
+
+  // The program output is the result of evaluating the AST root node.
   auto output = root.emit(build);
 
   build.CreateCall(printf_fn, {format, output});
@@ -36,6 +40,7 @@ Function* main_decl(Module& mod)
 {
   auto& ctx = mod.getContext();
 
+  // main has type int(int, char**)
   auto int_ty = IntegerType::get(ctx, 32);
   auto args_ty = IntegerType::get(ctx, 8)->getPointerTo()->getPointerTo();
 
@@ -48,6 +53,7 @@ Function* printf_decl(Module& mod)
 {
   auto& ctx = mod.getContext();
 
+  // printf has type int(char*, ...)
   auto int_ty = IntegerType::get(ctx, 32);
   auto c_str_ty = IntegerType::get(ctx, 8)->getPointerTo();
 

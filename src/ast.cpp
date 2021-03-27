@@ -1,10 +1,40 @@
 #include "ast.h"
 #include "codegen.h"
+#include "lexer.h"
+#include "parser.hpp"
 
 using namespace codegen;
 using namespace llvm;
 
 namespace ast {
+
+char binary_op_char(binary_op_kind k)
+{
+  switch (k) {
+  case binary_op_kind::add:
+    return '+';
+  case binary_op_kind::sub:
+    return '-';
+  case binary_op_kind::mul:
+    return '*';
+  case binary_op_kind::div:
+    return '/';
+  }
+}
+
+std::unique_ptr<node> node::parse(std::istream& in)
+{
+  lexer lex(&in);
+  std::unique_ptr<ast::node> root(nullptr);
+
+  yy::parser p(lex, root);
+  auto ret = p.parse();
+  if (ret != 0) {
+    return nullptr;
+  }
+
+  return root;
+}
 
 Value* constant::emit(ir_builder& b) const { return b.getInt64(value); }
 

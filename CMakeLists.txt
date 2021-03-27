@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
+# Run Flex and Bison in the build/ directory
 cmake_policy(SET CMP0088 NEW)
 
 project(RuntimeVerificationTest)
@@ -8,8 +9,9 @@ find_package(FLEX REQUIRED)
 find_package(BISON REQUIRED)
 find_package(LLVM REQUIRED CONFIG)
 
-# On macOS, search Homebrew for keg-only versions of Bison and Flex. Xcode does
-# not provide new enough versions for us to use.
+# From https://stackoverflow.com/a/59567896/10121160
+# Quick way to get the build system to pick up the Homebrew-installed,
+# up-to-date versions of bison and flex.
 if (CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
     execute_process(
         COMMAND brew --prefix bison 
@@ -34,12 +36,7 @@ if (CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
     endif()
 endif()
 
-llvm_map_components_to_libnames(llvm_libs
-  passes mcjit executionengine option irreader
-  asmparser x86asmparser x86codegen asmprinter
-  codegen target transformutils
-  bitwriter x86desc bitreader
-  core x86info support)
+llvm_map_components_to_libnames(llvm_libs bitwriter core support)
 
 flex_target(lexer
   src/lexer.l
@@ -73,6 +70,8 @@ target_include_directories(rvc
 target_compile_definitions(rvc
   PRIVATE ${LLVM_DEFINITIONS})
 
+# LLVM requires C++14 internally - would ideally use C++17 but stick with 14 for
+# maximum compatibility.
 set_property(
   TARGET rvc 
   PROPERTY CXX_STANDARD 14)
